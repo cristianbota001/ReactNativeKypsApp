@@ -1,16 +1,15 @@
 import { StyleSheet, View, TouchableHighlight, Text, ScrollView, TextInput } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import Middleware from "../../middleware"
+import Serializer from "../../Components/serializer"
 
 const stack = createNativeStackNavigator()
 
-const SendFormData = (page, form, setErrors) => {
-	let form_data = new FormData(document.querySelector(form))
-	Middleware.SendRequest(form_data, "POST", page).then(json_data => {
+const SendFormData = (page, json_data, setErrors) => {
+	Middleware.SendRequest(Serializer(json_data), "POST", page).then(json_data => {
 		if (json_data["response"] === "ok"){
-	
-			
+			//redirect			
 		}else{
 			setErrors({...json_data["response"]["errors"]})
 		}
@@ -20,6 +19,8 @@ const SendFormData = (page, form, setErrors) => {
 const Login = (props) => {
 	
 	const [errors, setErrors] = useState([])
+	var [username_input, setUI] = useState("")
+	var [password_input, setPI] = useState("")
 	
 	return(
 		<View style = {styles.container}>
@@ -27,13 +28,18 @@ const Login = (props) => {
             <ScrollView style={styles.scroll} contentContainerStyle={{alignItems:"center"}}>
                 <View style={styles.inputcont}>
 					<Text style={styles.normaltext}>Username</Text>
-					<TextInput style={styles.inputtext} />
+					<TextInput style={styles.inputtext} onChange={(value) => {setUI(value.target.value)}} />
 				</View>
                 <View style={styles.inputcont}>
 					<Text style={styles.normaltext}>Password</Text>
-					<TextInput secureTextEntry={true} style={styles.inputtext} />
+					<TextInput secureTextEntry={true} style={styles.inputtext} onChange={(value) => {setPI(value.target.value)}} />
 				</View>
-				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("login", "", setErrors)}}>
+				<View style={{padding:10, borderRadius:12, marginBottom:30, flex:1, alignItems:"flex-end", width:"90%"}}>
+					<TouchableHighlight>
+						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("registration")}}>Registration</Text>
+					</TouchableHighlight>
+				</View>
+				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("login", {"username":username_input, "password1":password_input}, setErrors)}}>
 					<Text style={styles.normaltext}>
 						Login
 					</Text>
@@ -41,24 +47,56 @@ const Login = (props) => {
 				<View style={styles.errorcont}>
 					{
 						Object.keys(errors).map(ele => {
-							return <p key={ele}>*{errors[ele][0]}</p>
+							return <Text key={ele}>*{errors[ele][0]}</Text>
 						})
 					}
 				</View>
             </ScrollView>
-			<TouchableHighlight onPress={() => {props.navigation.navigate("registration")}} style={{backgroundColor:"#3f8969b1", padding:10, borderRadius:12, marginBottom:20}}>
-				<Text style={{color:"white"}}>
-					Registration
-				</Text>
-			</TouchableHighlight>
         </View>
 	)
 
 }
-const Registration = () => {
-	return(
-		<View>
+const Registration = (props) => {
 
+	const [errors, setErrors] = useState([])
+	var [username_input, setUI] = useState("")
+	var [password_input, setPI] = useState("")
+	var [password_input_2, setPI2] = useState("")
+
+	return(
+		<View style = {styles.container}>
+			<Text style={styles.title}>Kyps</Text>
+            <ScrollView style={styles.scroll} contentContainerStyle={{alignItems:"center"}}>
+                <View style={styles.inputcont}>
+					<Text style={styles.normaltext}>Username</Text>
+					<TextInput style={styles.inputtext} onChange={(value) => {setUI(value.target.value)}} />
+				</View>
+                <View style={styles.inputcont}>
+					<Text style={styles.normaltext}>Password</Text>
+					<TextInput secureTextEntry={true} style={styles.inputtext} onChange={(value) => {setPI(value.target.value)}} />
+				</View>
+                <View style={styles.inputcont} >
+					<Text style={styles.normaltext}>Riscrivi la password</Text>
+					<TextInput secureTextEntry={true} style={styles.inputtext} onChange={(value) => {setPI2(value.target.value)}} />
+				</View>
+				<View style={{padding:10, borderRadius:12, marginBottom:30, flex:1, alignItems:"flex-end", width:"90%"}}>
+					<TouchableHighlight>
+						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("login")}}>Login</Text>
+					</TouchableHighlight>
+				</View>
+				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("registration", {"username":username_input, "password1":password_input, "password2":password_input_2}, setErrors)}}>
+					<Text style={styles.normaltext}>
+						Registration
+					</Text>
+				</TouchableHighlight>
+				<View style={styles.errorcont}>
+					{
+						Object.keys(errors).map(ele => {
+							return <Text key={ele}>*{errors[ele][0]}</Text>
+						})
+					}
+				</View>
+            </ScrollView>
 		</View>
 	)
 }
@@ -106,7 +144,7 @@ const styles = StyleSheet.create({
 		justifyContent:"space-around",
 		alignItems:"flex-start",
 		height:90,
-		marginBottom:60,
+		marginBottom:30,
 	},
 	submitbutton:{
 		width:"80%",
@@ -121,7 +159,8 @@ const styles = StyleSheet.create({
 		width:"100%",
 		flex:1,
 		justifyContent:"flex-start",
-		alignItems:"center"
+		alignItems:"center",
+		marginBottom:60
 	},
 	errortext:{
 		color:"#554343",

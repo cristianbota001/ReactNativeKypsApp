@@ -32,6 +32,7 @@ def Login(request):
     context = {}
     context["form"] = LoginForm(request.POST or None)
     if request.method == "POST":
+        print("POST => ", request.POST)
         if context["form"].is_valid():
             username = context["form"].cleaned_data["username"]
             password1 = context["form"].cleaned_data["password1"]

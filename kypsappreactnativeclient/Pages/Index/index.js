@@ -6,10 +6,10 @@ import Serializer from "../../Components/serializer"
 
 const stack = createNativeStackNavigator()
 
-const SendFormData = (page, json_data, setErrors) => {
+const SendFormData = (page, json_data, setErrors, navigation) => {
 	Middleware.SendRequest(Serializer(json_data), "POST", page).then(json_data => {
 		if (json_data["response"] === "ok"){
-			//redirect			
+			navigation.navigate("home")			
 		}else{
 			setErrors({...json_data["response"]["errors"]})
 		}
@@ -19,8 +19,8 @@ const SendFormData = (page, json_data, setErrors) => {
 const Login = (props) => {
 	
 	const [errors, setErrors] = useState([])
-	var [username_input, setUI] = useState("")
-	var [password_input, setPI] = useState("")
+	const [username_input, setUI] = useState("")
+	const [password_input, setPI] = useState("")
 	
 	return(
 		<View style = {styles.container}>
@@ -28,18 +28,18 @@ const Login = (props) => {
             <ScrollView style={styles.scroll} contentContainerStyle={{alignItems:"center"}}>
                 <View style={styles.inputcont}>
 					<Text style={styles.normaltext}>Username</Text>
-					<TextInput style={styles.inputtext} onChange={(value) => {setUI(value.target.value)}} />
+					<TextInput style={styles.inputtext} onChangeText={(value) => {setUI(value)}} />
 				</View>
                 <View style={styles.inputcont}>
 					<Text style={styles.normaltext}>Password</Text>
-					<TextInput secureTextEntry={true} style={styles.inputtext} onChange={(value) => {setPI(value.target.value)}} />
+					<TextInput secureTextEntry={true} style={styles.inputtext} onChangeText={(value) => {setPI(value)}} />
 				</View>
 				<View style={{padding:10, borderRadius:12, marginBottom:30, flex:1, alignItems:"flex-end", width:"90%"}}>
 					<TouchableHighlight>
 						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("registration")}}>Registration</Text>
 					</TouchableHighlight>
 				</View>
-				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("login", {"username":username_input, "password1":password_input}, setErrors)}}>
+				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("login", {"username":username_input, "password1":password_input}, setErrors, props.navigation)}}>
 					<Text style={styles.normaltext}>
 						Login
 					</Text>
@@ -69,22 +69,22 @@ const Registration = (props) => {
             <ScrollView style={styles.scroll} contentContainerStyle={{alignItems:"center"}}>
                 <View style={styles.inputcont}>
 					<Text style={styles.normaltext}>Username</Text>
-					<TextInput style={styles.inputtext} onChange={(value) => {setUI(value.target.value)}} />
+					<TextInput style={styles.inputtext} onChangeText={(value) => {setUI(value)}} />
 				</View>
                 <View style={styles.inputcont}>
 					<Text style={styles.normaltext}>Password</Text>
-					<TextInput secureTextEntry={true} style={styles.inputtext} onChange={(value) => {setPI(value.target.value)}} />
+					<TextInput secureTextEntry={true} style={styles.inputtext} onChangeText={(value) => {setPI(value)}} />
 				</View>
                 <View style={styles.inputcont} >
 					<Text style={styles.normaltext}>Riscrivi la password</Text>
-					<TextInput secureTextEntry={true} style={styles.inputtext} onChange={(value) => {setPI2(value.target.value)}} />
+					<TextInput secureTextEntry={true} style={styles.inputtext} onChangeText={(value) => {setPI2(value)}} />
 				</View>
 				<View style={{padding:10, borderRadius:12, marginBottom:30, flex:1, alignItems:"flex-end", width:"90%"}}>
 					<TouchableHighlight>
 						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("login")}}>Login</Text>
 					</TouchableHighlight>
 				</View>
-				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("registration", {"username":username_input, "password1":password_input, "password2":password_input_2}, setErrors)}}>
+				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("registration", {"username":username_input, "password1":password_input, "password2":password_input_2}, setErrors, props.navigation)}}>
 					<Text style={styles.normaltext}>
 						Registration
 					</Text>

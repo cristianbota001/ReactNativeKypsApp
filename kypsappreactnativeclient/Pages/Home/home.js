@@ -12,12 +12,18 @@ const Card = () => {
         </TouchableHighlight>
       </View>
       <View style={styles.cardformcont}>
-        <Text style={styles.cardtextform}>Servizio</Text>
-        <TextInput style={styles.cardtextinput} />
-        <Text style={styles.cardtextform}>Username</Text>
-        <TextInput style={styles.cardtextinput} />
-        <Text style={styles.cardtextform}>Password</Text>
-        <TextInput style={styles.cardtextinput} />
+        <View style={styles.inputocont}>
+          <Text style={styles.cardtextform}>Servizio</Text>
+          <TextInput style={styles.cardtextinput} />
+        </View>
+        <View style={styles.inputocont}>
+          <Text style={styles.cardtextform}>Username</Text>
+          <TextInput style={styles.cardtextinput} />
+        </View>
+        <View style={styles.inputocont}>
+          <Text style={styles.cardtextform}>Password</Text>
+          <TextInput style={styles.cardtextinput} />
+        </View>
       </View>
       <View style={styles.cardfooterbuttonscont}>
         <TouchableHighlight style={styles.cardfooterbuttons}><Text>Salva</Text></TouchableHighlight>
@@ -35,6 +41,10 @@ const Home = () => {
               <TextInput style={styles.textinput} />
             </View>
             <ScrollView style={styles.cardcont} contentContainerStyle={{justifyContent:"flex-start", alignItems:"center"}}>
+              <Card/>
+              <Card/>
+              <Card/>
+              <Card/>
               <Card/>
             </ScrollView>
             <View style={styles.optionsnav}>
@@ -144,13 +154,15 @@ const styles = StyleSheet.create({
     },
     cardtextinput:{
       width:"100%",
-      height:30,
+      height:40,
       backgroundColor:"white",
-      borderRadius:10
+      borderRadius:10,
+      padding:10
     },
     cardtextform:{
       color:"white",
-      fontSize:15
+      fontSize:15,
+      marginBottom:10
     },
     cardformcont:{
       flex:1,
@@ -158,6 +170,12 @@ const styles = StyleSheet.create({
       width:"100%",
       height:"30%",
       alignItems:"center"
+    },
+    inputocont:{
+      width:"80%",
+      display:"flex",
+      justifyContent:"flex-start",
+      alignItems:"flex-start"
     }
   });
   

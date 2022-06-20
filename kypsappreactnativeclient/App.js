@@ -16,7 +16,7 @@ export default function App() {
     <Provider store = {store}>
       <NavigationContainer>
           <stack.Navigator screenOptions={{headerShown:false}}>
-            <stack.Screen component={Index} name="index"/>
+            {/* <stack.Screen component={Index} name="index"/> */}
             <stack.Screen component={Home} name="home"/>
           </stack.Navigator>
       </NavigationContainer>

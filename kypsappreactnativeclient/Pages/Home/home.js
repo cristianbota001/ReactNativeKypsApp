@@ -45,17 +45,22 @@ const Card = (props) => {
         if (newmode == true){
             SaveNewCred()
         }else{
-            //UpdateCard()
+            UpdateCard()
         }
     }
 
-	const SaveNewCred = () => {
-        let form_data = new FormData()
+	const GetFormData = () => {
+		let form_data = new FormData()
 		form_data.append("service", ser)
 		form_data.append("username", use)
 		form_data.append("password", pass)
         //form_data.append("user_auth_id", user_auth_id)
         form_data.append("user_auth_id", "7mE9-N8OWsPt9DeEJXVjV8asf_2T0KJpBVPRUmJXKaiDcDxDipQ6kp8klpTc164pbjo=")
+		return form_data
+	}
+
+	const SaveNewCred = () => {
+        let form_data = GetFormData()
         Middleware.SendRequest(form_data, "POST", "post_credentials").then(json_data => {
             if (json_data.response === "ok"){
                 setIdCred(json_data.id_cred)
@@ -67,17 +72,44 @@ const Card = (props) => {
         })
     }
 
+	const UpdateCard = () => {
+        let form_data = JSON.stringify({service:ser, username:use, password:pass})
+        Middleware.SendRequest(null, "PUT", "put_credentials/" + id_cred + "/" + "7mE9-N8OWsPt9DeEJXVjV8asf_2T0KJpBVPRUmJXKaiDcDxDipQ6kp8klpTc164pbjo=" + "/" + form_data).then(json_data => { // mettere user_auth_id
+            if (json_data.response === "ok"){
+                setWidAct(!widact)
+                updateCred(props.index_card)
+            }
+        })
+    }
+
 	const updateCred = (index, id_c) => {
         dispatch({type:"updateCred", service:ser, username:use, password:pass, index:index, id_cred:id_c})
+    }
+
+	const AdjustEvent = () => {
+        if (newmode == false){
+            setWidAct(!widact)
+        }
+    }
+
+	const DeleteCard = () => {
+        if (newmode == false){
+            Middleware.SendRequest(null, "DELETE", "delete_credentials/" + id_cred + "/" + "7mE9-N8OWsPt9DeEJXVjV8asf_2T0KJpBVPRUmJXKaiDcDxDipQ6kp8klpTc164pbjo=").then(json_data => { // mettere user_auth_id
+                if (json_data.response === "ok"){
+                   //
+                }
+            })
+            dispatch({type:"spliceCred", index:props.index_card})
+        }
     }
 
 	return(
 		<View style={styles.card}>
 			<View style={styles.cardnavbuttonscont}>
-				<TouchableHighlight style={styles.cardnavbuttons}>
+				<TouchableHighlight style={styles.cardnavbuttons} onPress={AdjustEvent}>
 					<Image source={require("../../Media/adjust.png")} style={styles.searchimg} />
 				</TouchableHighlight>
-				<TouchableHighlight style={styles.cardnavbuttons}>
+				<TouchableHighlight style={styles.cardnavbuttons} onPress={DeleteCard}>
 					<Image source={require("../../Media/delete.png")} style={styles.searchimg} />
 				</TouchableHighlight>
 			</View>
@@ -139,7 +171,12 @@ const Home = () => {
 				dispatch({type:"resetCred", value:json_data.response})
 			})
 		}
-		
+
+		const ExitEvent = () => {
+			/* sessionStorage.setItem("session", "false")
+			sessionStorage.setItem("user_auth_id", "none")
+			navigate("/") */
+		}
 
 		return (
 			<View style = {styles.container}>

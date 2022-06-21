@@ -32,7 +32,6 @@ def Login(request):
     context = {}
     context["form"] = LoginForm(request.POST or None)
     if request.method == "POST":
-        print("POST => ", request.POST)
         if context["form"].is_valid():
             username = context["form"].cleaned_data["username"]
             password1 = context["form"].cleaned_data["password1"]
@@ -76,7 +75,6 @@ def GetCredentials(request, user_auth_id):
 @csrf_exempt
 def PostCredentials(request):
     if request.method == "POST":
-        print("post cred => ", request.POST)
         CheckAuthID(request.POST["user_auth_id"])
         profile = Profile.objects.filter(user_auth_id = request.POST["user_auth_id"]).first()
         data = request.POST.copy()

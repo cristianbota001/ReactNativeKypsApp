@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableHighlight, Text, Image, TextInput, ScrollView } from "react-native"
+import { StyleSheet, View, TouchableHighlight, Text, Image, TextInput, ScrollView, Button } from "react-native"
 import { useSelector, useDispatch } from "react-redux"
 import Middleware from "../../middleware";
 import { v4 } from 'uuid';
@@ -18,6 +18,8 @@ const Card = (props) => {
 
 	const [newmode, setNewMode] = useState(props.infos.newmode)
 	const [id_cred, setIdCred] = useState(props.infos.id_cred)
+
+	const [securepass, setSecurePass] = useState(true)
 
 	useEffect(() => {
 		if (newmode == true){
@@ -123,7 +125,12 @@ const Card = (props) => {
 				</View>
 				<View style={styles.inputocont}>
 					<Text style={styles.cardtextform}>Password</Text>
-					<TextInput secureTextEntry={true} style={styles.cardtextinput} value={pass} editable={widact} onChangeText={(value) => {setPass(value)}}/>
+					<View style={styles.contpass}>
+						<TextInput style={styles.inputpass} secureTextEntry={securepass} value={pass} editable={widact} onChangeText={(value) => {setPass(value)}}/>
+						<TouchableHighlight underlayColor={"transparent"} onPress={() => setSecurePass(!securepass)}>
+							<Image source={ securepass == true ? require("../../Media/invisible.png") : require("../../Media/visibility.png")} style={styles.eyeimg} />
+						</TouchableHighlight>
+					</View>
 				</View>
 			</View>
 			<View style={styles.cardfooterbuttonscont}>
@@ -310,6 +317,25 @@ const styles = StyleSheet.create({
 			backgroundColor:"white",
 			borderRadius:10,
 			padding:10
+		},
+		contpass:{
+			width:"100%",
+			height:40,
+			backgroundColor:"white",
+			borderRadius:10,
+			padding:10,
+			display:"flex",
+			flexDirection:"row",
+			justifyContent:"flex-start",
+			alignItems:"center"
+		},
+		inputpass:{
+			width:"90%",
+			height:40
+		},
+		eyeimg:{
+			width:20,
+			height:20
 		},
 		cardtextform:{
 			color:"white",

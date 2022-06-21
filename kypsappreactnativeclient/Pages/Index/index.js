@@ -34,7 +34,7 @@ const Login = (props) => {
 					<Text style={styles.normaltext}>Username</Text>
 					<TextInput style={styles.inputtext} onChangeText={(value) => {setUI(value)}} />
 				</View>
-                <View style={styles.inputcont}>
+                <View style={[styles.inputcont, {marginBottom:0}]}>
 					<Text style={styles.normaltext}>Password</Text>
 					<TextInput secureTextEntry={true} style={styles.inputtext} onChangeText={(value) => {setPI(value)}} />
 				</View>
@@ -81,7 +81,7 @@ const Registration = (props) => {
 					<Text style={styles.normaltext}>Password</Text>
 					<TextInput secureTextEntry={true} style={styles.inputtext} onChangeText={(value) => {setPI(value)}} />
 				</View>
-                <View style={styles.inputcont} >
+                <View style={[styles.inputcont, {marginBottom:0}]} >
 					<Text style={styles.normaltext}>Riscrivi la password</Text>
 					<TextInput secureTextEntry={true} style={styles.inputtext} onChangeText={(value) => {setPI2(value)}} />
 				</View>

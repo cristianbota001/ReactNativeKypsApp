@@ -193,10 +193,10 @@ const Home = (props) => {
 			}
 			</ScrollView>
 			<View style={styles.optionsnav}>
-				<TouchableHighlight onPress={ExitEvent}>
+				<TouchableHighlight underlayColor={"#D8EAEF"} style={[styles.optionsnavbutton, {borderBottomLeftRadius:15, borderTopLeftRadius:15}]} onPress={ExitEvent}>
 					<Image source={require("../../Media/left.png")} style={styles.navbuttonimg} />
 				</TouchableHighlight>
-				<TouchableHighlight onPress={AddNewCred}>
+				<TouchableHighlight underlayColor={"#D8EAEF"} style={[styles.optionsnavbutton, {borderBottomRightRadius:15, borderTopRightRadius:15}]} onPress={AddNewCred}>
 					<Image source={require("../../Media/add.png")} style={styles.navbuttonimg} />
 				</TouchableHighlight>
 			</View>
@@ -225,6 +225,13 @@ const styles = StyleSheet.create({
 			borderRadius:15,
 			marginBottom:10,
 			marginTop:10
+		},
+		optionsnavbutton:{
+			flex:1,
+			justifyContent:"center",
+			alignItems:"center",
+			width:"100%",
+			height:70
 		},
 		navbuttonimg:{
 			height:50,

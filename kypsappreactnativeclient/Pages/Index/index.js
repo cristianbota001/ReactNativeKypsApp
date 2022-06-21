@@ -43,7 +43,7 @@ const Login = (props) => {
 						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("registration")}}>Registration</Text>
 					</TouchableHighlight>
 				</View>
-				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("login", {"username":username_input, "password1":password_input}, setErrors, props.navigation, dispatch)}}>
+				<TouchableHighlight underlayColor={"#649E85"} style={styles.submitbutton} onPress={() => {SendFormData("login", {"username":username_input, "password1":password_input}, setErrors, props.navigation, dispatch)}}>
 					<Text style={styles.normaltext}>
 						Login
 					</Text>
@@ -90,7 +90,7 @@ const Registration = (props) => {
 						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("login")}}>Login</Text>
 					</TouchableHighlight>
 				</View>
-				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("registration", {"username":username_input, "password1":password_input, "password2":password_input_2}, setErrors, props.navigation, dispatch)}}>
+				<TouchableHighlight underlayColor={"#649E85"} style={styles.submitbutton} onPress={() => {SendFormData("registration", {"username":username_input, "password1":password_input, "password2":password_input_2}, setErrors, props.navigation, dispatch)}}>
 					<Text style={styles.normaltext}>
 						Registration
 					</Text>

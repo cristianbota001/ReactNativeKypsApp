@@ -31,6 +31,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://192.168.1.66:19000',
+    'http://192.168.1.66:3000',
     'http://localhost:19006'
 )
 

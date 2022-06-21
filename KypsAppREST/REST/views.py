@@ -76,6 +76,7 @@ def GetCredentials(request, user_auth_id):
 @csrf_exempt
 def PostCredentials(request):
     if request.method == "POST":
+        print("post cred => ", request.POST)
         CheckAuthID(request.POST["user_auth_id"])
         profile = Profile.objects.filter(user_auth_id = request.POST["user_auth_id"]).first()
         data = request.POST.copy()

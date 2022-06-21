@@ -1,14 +1,16 @@
 import { StyleSheet, View, TouchableHighlight, Text, ScrollView, TextInput } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
 import Middleware from "../../middleware"
 import Serializer from "../../Components/serializer"
 
 const stack = createNativeStackNavigator()
 
-const SendFormData = (page, json_data, setErrors, navigation) => {
+const SendFormData = (page, json_data, setErrors, navigation, dispatch) => {
 	Middleware.SendRequest(Serializer(json_data), "POST", page).then(json_data => {
 		if (json_data["response"] === "ok"){
+			dispatch({type:"setUserAuthID", value:json_data.user_auth_id})
 			navigation.navigate("home")			
 		}else{
 			setErrors({...json_data["response"]["errors"]})
@@ -21,6 +23,8 @@ const Login = (props) => {
 	const [errors, setErrors] = useState([])
 	const [username_input, setUI] = useState("")
 	const [password_input, setPI] = useState("")
+
+	const dispatch = useDispatch()
 	
 	return(
 		<View style = {styles.container}>
@@ -39,7 +43,7 @@ const Login = (props) => {
 						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("registration")}}>Registration</Text>
 					</TouchableHighlight>
 				</View>
-				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("login", {"username":username_input, "password1":password_input}, setErrors, props.navigation)}}>
+				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("login", {"username":username_input, "password1":password_input}, setErrors, props.navigation, dispatch)}}>
 					<Text style={styles.normaltext}>
 						Login
 					</Text>
@@ -63,6 +67,8 @@ const Registration = (props) => {
 	var [password_input, setPI] = useState("")
 	var [password_input_2, setPI2] = useState("")
 
+	const dispatch = useDispatch()
+
 	return(
 		<View style = {styles.container}>
 			<Text style={styles.title}>Kyps</Text>
@@ -84,7 +90,7 @@ const Registration = (props) => {
 						<Text style={{color:"white"}} onPress={() => {props.navigation.navigate("login")}}>Login</Text>
 					</TouchableHighlight>
 				</View>
-				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("registration", {"username":username_input, "password1":password_input, "password2":password_input_2}, setErrors, props.navigation)}}>
+				<TouchableHighlight style={styles.submitbutton} onPress={() => {SendFormData("registration", {"username":username_input, "password1":password_input, "password2":password_input_2}, setErrors, props.navigation, dispatch)}}>
 					<Text style={styles.normaltext}>
 						Registration
 					</Text>
